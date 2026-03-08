@@ -54,35 +54,34 @@ The backend continuously captures audio from a Reolink camera via RTSP, computes
 
 ## Quick start
 
-### 1. Clone
+### 1. Create a `docker-compose.yml`
 
-```bash
-git clone https://github.com/odeckmyn/ibabyphone.git
-cd ibabyphone
+```yaml
+services:
+  babyphone:
+    image: ghcr.io/odeckmyn/ibabyphone:latest
+    container_name: ibabyphone
+    restart: unless-stopped
+    ports:
+      - "8585:8585"
+    environment:
+      - RTSP_URL=rtsp://admin:password@192.168.1.XX:554/h264Preview_01_sub
+      - THRESHOLD=500
+    tmpfs:
+      - /tmp/hls:size=50M
 ```
 
-### 2. Configure
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your camera credentials:
-
-```env
-RTSP_URL=rtsp://admin:password@192.168.1.XX:554/h264Preview_01_sub
-THRESHOLD=500
-```
+Replace `RTSP_URL` with your camera credentials.
 
 > **Note:** if your password contains `@`, encode it as `%40` in the URL.
 
-### 3. Run
+### 2. Run
 
 ```bash
-docker compose up -d --build
+docker compose up -d
 ```
 
-### 4. Open
+### 3. Open
 
 Navigate to `http://<your-server-ip>:8585` on your phone, tap **Play**.
 
@@ -98,6 +97,17 @@ The app opens in full-screen mode without Safari's UI.
 ## Remote access (away from home)
 
 Install [Tailscale](https://tailscale.com) on both your server and your iPhone. The baby monitor becomes accessible from anywhere via your Tailscale network — no port forwarding, no dynamic DNS.
+
+## Build from source
+
+If you prefer to build locally instead of using the pre-built image:
+
+```bash
+git clone https://github.com/odeckmyn/ibabyphone.git
+cd ibabyphone
+cp .env.example .env   # edit with your camera credentials
+docker compose up -d --build
+```
 
 ## Architecture
 
