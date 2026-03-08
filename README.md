@@ -17,6 +17,12 @@
 
 ---
 
+<p align="center">
+  <img src="docs/screenshot.png" width="300" alt="iBabyPhone screenshot">
+</p>
+
+---
+
 ## How it works
 
 ```
