@@ -1,0 +1,11 @@
+services:
+  babyphone:
+    build: ./backend
+    container_name: ibabyphone
+    restart: unless-stopped
+    ports:
+      - "8585:8585"
+    env_file:
+      - .env
+    tmpfs:
+      - /tmp/hls:size=50M
